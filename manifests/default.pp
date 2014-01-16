@@ -1,17 +1,18 @@
-exec { "apt-get update":
-  path => "/usr/bin",
+# create a new run stage to ensure certain modules are included first
+stage { 'pre':
+  before => Stage['main']
 }
-package { "apache2":
-  ensure  => present,
-  require => Exec["apt-get update"],
+
+# add the baseconfig module to the new 'pre' run stage
+class { 'baseconfig':
+  stage => 'pre'
 }
-service { "apache2":
-  ensure  => "running",
-  require => Package["apache2"],
+
+# set defaults for file ownership/permissions
+File {
+  owner => 'root',
+  group => 'root',
+  mode  => '0644',
 }
-file { "/var/www/sample-webapp":
-  ensure  => "link",
-  target  => "/vagrant/sample-webapp",
-  require => Package["apache2"],
-  notify  => Service["apache2"],
-}
+
+include baseconfig, apache, mysql, php, apache_vhosts

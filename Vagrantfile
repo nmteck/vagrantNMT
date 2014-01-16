@@ -1,26 +1,30 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
-# Vagrantfile API/syntax version. Don't touch unless you know what you're doing!
-VAGRANTFILE_API_VERSION = "2"
+box      = 'nmteckDev'
+url      = 'http://ilm.nmteck.net/filez/uploads/nmtec/nmteckDev.box'
+hostname = 'vagrantdev'
+domain   = 'nmteck.info'
+ip       = '192.168.0.42'
+ram      = '256'
 
-Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
-  config.vm.box = "nmteckDev"
-  config.vm.box_url = "http://ilm.nmteck.net/filez/uploads/nmtec/nmteckDev.box"
+Vagrant::Config.run do |config|
+  config.vm.box = box
+  config.vm.box_url = url
+  config.vm.host_name = hostname + '.' + domain
   config.vm.network :forwarded_port, guest: 80, host: 3000
 
   config.vm.network :private_network, ip: "192.168.33.7"
 
-  # config.vm.provider :virtualbox do |vb|
-  #   # Don't boot with headless mode
-  #   vb.gui = true
-  #
-  #   # Use VBoxManage to customize the VM. For example to change memory:
-  #   vb.customize ["modifyvm", :id, "--memory", "1024"]
-  # end
-  
+  config.vm.customize [
+    'modifyvm', :id,
+    '--name', hostname,
+    '--memory', ram
+  ]
+
   config.vm.provision :puppet do |puppet|
-    puppet.manifests_path = "manifests"
-    puppet.manifest_file  = "default.pp"
+    puppet.manifests_path = 'manifests'
+    puppet.manifest_file = 'default.pp'
+    puppet.module_path = 'modules'
   end
 end
