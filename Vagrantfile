@@ -8,19 +8,17 @@ domain   = 'nmteck.info'
 ip       = '192.168.0.42'
 ram      = '256'
 
-Vagrant::Config.run do |config|
+VAGRANTFILE_API_VERSION = "2"
+
+Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.box = box
   config.vm.box_url = url
   config.vm.host_name = hostname + '.' + domain
-  config.vm.network :forwarded_port, guest: 80, host: 3000
+  config.vm.network "forwarded_port", guest: 80, host: 8080
+  
+  config.vm.network "private_network", ip: "192.168.0.7"
 
-  config.vm.network :private_network, ip: "192.168.33.7"
-
-  config.vm.customize [
-    'modifyvm', :id,
-    '--name', hostname,
-    '--memory', ram
-  ]
+  config.vm.synced_folder "~/www", "/var/www", id: "vagrant-root"
 
   config.vm.provision :puppet do |puppet|
     puppet.manifests_path = 'manifests'

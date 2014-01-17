@@ -26,7 +26,7 @@ class mysql {
   }
 
   exec { 'load-dynamic-sql':
-    command => 'mysql -u root -proot < /vagrant/sites/dynamic.sql',
+    command => 'mysql -u root -proot < /vagrant/sql/dbsetup.sql',
     path    => ['/bin', '/usr/bin'],
     require => Exec['set-mysql-password'];
   }

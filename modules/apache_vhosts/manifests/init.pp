@@ -7,5 +7,5 @@ class apache_vhosts {
     ensure => directory;
   }
 
-  apache_vhosts::vhost { ['static-site', 'dynamic-site']: }
+  apache_vhosts::vhost { ['nbcsports.com']: }
 }

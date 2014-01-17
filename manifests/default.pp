@@ -15,4 +15,8 @@ File {
   mode  => '0644',
 }
 
-include baseconfig, apache, mysql, php, apache_vhosts
+include baseconfig, apache, mysql, php, apache_vhosts, stdlib, git
+
+package { ['build-essential', 'python-software-properties', 'puppet-lint', 'vim', 'curl', 'zip']:
+	ensure  => 'installed'
+}
