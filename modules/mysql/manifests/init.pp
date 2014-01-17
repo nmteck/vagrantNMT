@@ -18,16 +18,9 @@ class mysql {
     notify  => Service['mysql'];
   }
 
-  exec { 'set-mysql-password':
-    unless  => 'mysqladmin -uroot -proot status',
-    command => "mysqladmin -uroot password root",
+  exec { 'load-dynamic-sql':
+    command => 'mysql -u root < /vagrant/sql/dbsetup.sql',
     path    => ['/bin', '/usr/bin'],
     require => Service['mysql'];
-  }
-
-  exec { 'load-dynamic-sql':
-    command => 'mysql -u root -proot < /vagrant/sql/dbsetup.sql',
-    path    => ['/bin', '/usr/bin'],
-    require => Exec['set-mysql-password'];
   }
 }
