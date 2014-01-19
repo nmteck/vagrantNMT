@@ -4,5 +4,4 @@
 #
 class apache_vhosts {
 
-  apache_vhosts::vhost { ['nbcsports.com']: }
 }
