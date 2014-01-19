@@ -2,7 +2,7 @@
 # vi: set ft=ruby :
 
 box      = 'nmteckDev'
-url      = 'http://ilm.nmteck.net/filez/uploads/nmtec/nmteckDev.box'
+url      = 'http://files.vagrantup.com/precise32.box'
 hostname = 'vagrantdev'
 domain   = 'nmteck.info'
 ip       = '192.168.0.42'
